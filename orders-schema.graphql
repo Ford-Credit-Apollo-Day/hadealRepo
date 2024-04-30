@@ -20,13 +20,13 @@ type Order @key(fields: "id") {
   """
   The user who made the purchase
   """
-  buyer: User!
+  buyer: User! @requiresScopes(scopes: [["order:buyer"]])
 
   """
   A list of all the items they purchased. This is the Variants, not the Products so we know exactly which
   product and which size/color/feature was bought
   """
-  items: [ProductVariant!]!
+  items: [ProductVariant!]! @requiresScopes(scopes: [["order:items"]])
 }
 
 type User @key(fields: "id", resolvable: false) {
@@ -35,21 +35,4 @@ type User @key(fields: "id", resolvable: false) {
 
 type ProductVariant @key(fields: "id", resolvable: false) {
   id: ID!
-}
-type Order @key(fields: "id") {
-  """
-  Each order has a unique id which is separate from the user or items they bought
-  """
-  id: ID!
-
-  """
-  The user who made the purchase
-  """
-  buyer: User! @requiresScopes(scopes: [["order:buyer"]])
-
-  """
-  A list of all the items they purchased. This is the Variants, not the Products so we know exactly which
-  product and which size/color/feature was bought
-  """
-  items: [ProductVariant!]! @requiresScopes(scopes: [["order:items"]])
 }
